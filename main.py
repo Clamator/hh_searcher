@@ -29,9 +29,8 @@ class Headhunter(object):
     def search(self):
         self.driver.get('https://hh.ru/search/vacancy/advanced')
         keywords = self.driver.find_element(By.ID, 'advancedsearchmainfield')
-        keywords.send_keys('Python junior')
-        salary = self.driver.find_element(By.XPATH,
-                                          '/html/body/div[6]/div/div[1]/div[3]/div/div[1]/div/form/div[7]/div/div[2]/div[1]/div[1]/input[1]')
+        keywords.send_keys('водитель')
+        salary = self.driver.find_element(By.CSS_SELECTOR, 'input[class*="FormattedNumericInput-Visible"]')
         salary.send_keys('55000')
         full_employment = self.driver.find_element(By.NAME, 'employment')
         self.driver.execute_script("arguments[0].click();", full_employment)
@@ -45,7 +44,9 @@ class Headhunter(object):
 
     # a function to send respond
     def send_respond(self):
-
+        all_vacancies = self.driver.find_elements(By.CSS_SELECTOR, 'div[class*="vacancy-serp-item"]')
+        for sep_vacancy in all_vacancies:
+            print(sep_vacancy.text)
 
 
 if __name__ == '__main__':
@@ -53,3 +54,4 @@ if __name__ == '__main__':
     hh_searcher = Headhunter()
     hh_searcher.login()
     hh_searcher.search()
+    hh_searcher.send_respond()
