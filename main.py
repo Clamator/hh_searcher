@@ -14,7 +14,7 @@ class Headhunter(object):
     def __init__(self):
         option = options = Options()
         option.add_argument("--disable-blink-features=AutomationControlled")
-        option.headless = True
+        # option.headless = True
         self.driver = webdriver.Chrome(chrome_options=option)
         self.driver.get(hh_login_page)
 
@@ -44,14 +44,18 @@ class Headhunter(object):
 
     # a function to send respond
     def send_respond(self):
-        all_vacancies = self.driver.find_elements(By.CSS_SELECTOR, 'div[class*="vacancy-serp-item"]')
+        all_vacancies = self.driver.find_elements(By.CLASS_NAME, 'vacancy-serp-item')
+        links_list = []
         for sep_vacancy in all_vacancies:
             try:
-                link = sep_vacancy.find_element(By.CLASS_NAME, 'bloko-link').get_attribute('href')
-                print(link)
+                link = sep_vacancy.find_element(By.CSS_SELECTOR, 'a[class*="bloko-link"]').get_attribute('href')
+                links_list.append(link)
             except:
-                link = 'None'
-                print(link)
+                print('no vacancy link')
+
+        test_button = self.driver.get(links_list[0])
+        vacancy_name = self.driver.find_element(By.CSS_SELECTOR, 'h1[class*="bloko-header-1"]')
+        print(vacancy_name.text)
 
 if __name__ == '__main__':
     hh_login_page = 'https://hh.ru/account/login'
