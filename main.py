@@ -110,13 +110,20 @@ class Headhunter(object):
             respond_time = datetime.now()
 
             #try:
-            #    respond_button = self.driver.find_element(By.CSS_SELECTOR, 'span[data-qa*="vacancy-view-raw-address"]')
+            #    respond_button = self.driver.find_element(By.CSS_SELECTOR, 'a[data-qa*="vacancy-response-link-top"]')
             #    self.driver.execute_script("arguments[0].click();", respond_button)
+            #    sleep(5)
+#
+            #    hit_letter_button = self.driver.find_element(By.CSS_SELECTOR,
+            #                                                 'span[data-qa*="vacancy-response-letter-toggle"]')
+            #    self.driver.execute_script("arguments[0].click();", hit_letter_button)
+            #    sleep(5)
             #    respond_text = self.driver.find_element(By.CSS_SELECTOR,
-            #                                             'textarea[class*="bloko-textarea bloko-textarea_sized-rows"]')
+            #                                            'textarea[class*="bloko-textarea bloko-textarea_sized-rows"]')
             #    text = open('voditel.txt', 'r', encoding='utf-8')
             #    respond_text.send_keys(text)
-            #    send_respond_text = self.driver.find_element(By.CSS_SELECTOR,'button[type*="submit"]')
+            #    send_respond_text = self.driver.find_element(By.CSS_SELECTOR, 'button[type*="submit"]')
+            #    sleep(5)
             #    self.driver.execute_script("arguments[0].click();", send_respond_text)
             #except:
             #    respond_button = 'button not found'
