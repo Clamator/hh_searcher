@@ -19,7 +19,7 @@ class Headhunter(object):
 
     # a function to login
     def login(self):
-        for cookies in pickle.load(open('hh_session', 'rb')):
+        for cookies in pickle.load(open('hh_session_inn', 'rb')):
             self.driver.add_cookie(cookies)
         self.driver.refresh()
 
