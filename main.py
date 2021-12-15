@@ -122,7 +122,7 @@ class Headhunter(object):
             #                                            'textarea[class*="bloko-textarea bloko-textarea_sized-rows"]')
             #    text = open('voditel.txt', 'r', encoding='utf-8')
             #    respond_text.send_keys(text.read())
-            #    send_respond_text = self.driver.find_element(By.CSS_SELECTOR, 'button[type*="submit"]')
+            #    send_respond_text = self.driver.find_element(By.XPATH, '//span[contains(text(), "Отправить")]')
             #    sleep(5)
             #    self.driver.execute_script("arguments[0].click();", send_respond_text)
             #except:
@@ -136,7 +136,6 @@ class Headhunter(object):
                 "salary": salary,
                 "address": address,
                 "respond_time": respond_time,
-                #"respond_button": "yes" if respond_button != 'button not found' else 'no'
             }
             print(data)
             #self.write_csv(data)
