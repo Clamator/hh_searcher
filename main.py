@@ -65,6 +65,8 @@ class Headhunter(object):
                     print('no vacancy link')
             next_button = self.driver.find_element(By.XPATH, '//span[contains(text(), "дальше")]')
             self.driver.execute_script("arguments[0].click();", next_button)
+        print(links_list)
+
         # here i parse data
         for test_link in links_list:
             test_button = self.driver.get(test_link)
@@ -128,7 +130,8 @@ class Headhunter(object):
                 "respond_time": respond_time,
                 #"respond_button": "yes" if respond_button != 'button not found' else 'no'
             }
-            self.write_csv(data)
+            print(data)
+            #self.write_csv(data)
 
 
 
