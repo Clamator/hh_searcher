@@ -1,11 +1,10 @@
-from datetime import datetime, date, time
+from datetime import datetime
+from multiprocessing import Pool
 from time import sleep
-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import csv
-from bs4 import BeautifulSoup
 import pickle
 
 
@@ -14,7 +13,7 @@ class Headhunter(object):
     def __init__(self):
         option = options = Options()
         option.add_argument("--disable-blink-features=AutomationControlled")
-        option.headless = True
+        #option.headless = True
         self.driver = webdriver.Chrome(chrome_options=option)
         self.driver.get(hh_login_page)
 
@@ -23,7 +22,6 @@ class Headhunter(object):
         for cookies in pickle.load(open('hh_session', 'rb')):
             self.driver.add_cookie(cookies)
         self.driver.refresh()
-        sleep(0.5)
 
     # a function to search by some conditions
     def search(self):
@@ -42,6 +40,13 @@ class Headhunter(object):
         search_button = self.driver.find_element(By.ID, 'submit-bottom')
         self.driver.execute_script("arguments[0].click();", search_button)
 
+    def write_csv(self, data):
+        with open('hh_driver_results.csv', 'a', encoding='utf-8', newline='') as file:
+            order = ['vacancy_name', 'company_name', 'contact_phone_number', 'contact_name', 'salary', 'address',
+                     'respond_time']
+            writer = csv.DictWriter(file, fieldnames=order)
+            writer.writerow(data)
+
     # a function to parse data and send respond
     def send_respond(self):
         # here i get all the link of vacancies
@@ -59,6 +64,7 @@ class Headhunter(object):
                 except:
                     print('no vacancy link')
             next_button = self.driver.find_element(By.XPATH, '//span[contains(text(), "дальше")]')
+            self.driver.execute_script("arguments[0].click();", next_button)
         # here i parse data
         for test_link in links_list:
             test_button = self.driver.get(test_link)
@@ -78,23 +84,52 @@ class Headhunter(object):
             except:
                 salary = 'by agreement'
             try:
-                company_name = self.driver.find_element(By.CSS_SELECTOR, 'a[class*="vacancy-company-name"]').text.strip()
+                company_name = self.driver.find_element(By.CSS_SELECTOR,
+                                                        'a[class*="vacancy-company-name"]').text.strip()
             except:
                 company_name = 'unknown company name'
             try:
-                contact_name = self.driver.find_element(By.CSS_SELECTOR, 'p[data-qa*="vacancy-contacts__fio"]').text.strip()
+                contact_name = self.driver.find_element(By.CSS_SELECTOR,
+                                                        'p[data-qa*="vacancy-contacts__fio"]').text.strip()
             except:
                 contact_name = 'no contacts'
             try:
-                contact_phone_number = self.driver.find_element(By.CSS_SELECTOR, 'p[data-qa*="vacancy-contacts__phone"]').text.strip()
+                contact_phone_number = self.driver.find_element(By.CSS_SELECTOR,
+                                                                'p[data-qa*="vacancy-contacts__phone"]').text.strip()
+                contact_phone_number = ''.join(x for x in contact_phone_number if x.isdigit() or x == '+')[:12]
             except:
                 contact_phone_number = 'no contacts'
             try:
-                address = self.driver.find_element(By.CSS_SELECTOR, 'span[data-qa*="vacancy-view-raw-address"]').text.strip()
+                address = self.driver.find_element(By.CSS_SELECTOR,
+                                                   'span[data-qa*="vacancy-view-raw-address"]').text.strip()
             except:
                 address = 'address is unknown'
 
-            print(vacancy_name, salary, company_name, contact_name, contact_phone_number, address)
+            respond_time = datetime.now()
+
+            #try:
+            #    respond_button = self.driver.find_element(By.CSS_SELECTOR, 'span[data-qa*="vacancy-view-raw-address"]')
+            #    self.driver.execute_script("arguments[0].click();", respond_button)
+            #    respond_text = self.driver.find_element(By.CSS_SELECTOR,
+            #                                             'textarea[class*="bloko-textarea bloko-textarea_sized-rows"]')
+            #    respond_text.send_keys('text')
+            #    send_respond_text = self.driver.find_element(By.CSS_SELECTOR,'button[type*="submit"]')
+            #    self.driver.execute_script("arguments[0].click();", send_respond_text)
+            #except:
+            #    respond_button = 'button not found'
+
+            data = {
+                "vacancy_name": vacancy_name,
+                "company_name": company_name,
+                "contact_phone_number": contact_phone_number,
+                "contact_name": contact_name,
+                "salary": salary,
+                "address": address,
+                "respond_time": respond_time,
+                #"respond_button": "yes" if respond_button != 'button not found' else 'no'
+            }
+            self.write_csv(data)
+
 
 
 if __name__ == '__main__':
