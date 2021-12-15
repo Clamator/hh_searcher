@@ -114,7 +114,8 @@ class Headhunter(object):
             #    self.driver.execute_script("arguments[0].click();", respond_button)
             #    respond_text = self.driver.find_element(By.CSS_SELECTOR,
             #                                             'textarea[class*="bloko-textarea bloko-textarea_sized-rows"]')
-            #    respond_text.send_keys('text')
+            #    text = open('voditel.txt', 'r', encoding='utf-8')
+            #    respond_text.send_keys(text)
             #    send_respond_text = self.driver.find_element(By.CSS_SELECTOR,'button[type*="submit"]')
             #    self.driver.execute_script("arguments[0].click();", send_respond_text)
             #except:
