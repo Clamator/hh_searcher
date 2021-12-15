@@ -24,7 +24,7 @@ class Headhunter(object):
         self.driver.refresh()
 
     def send_respond(self):
-        link = 'https://hh.ru/vacancy/45840460?from=vacancy_search_list&query=%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C'
+        link = 'https://hh.ru/vacancy/49685757?from=vacancy_search_list&query=%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C'
         self.driver.get(link)
         try:
             employer_contacts_button = self.driver.find_element(By.XPATH,
@@ -73,7 +73,7 @@ class Headhunter(object):
             respond_text = self.driver.find_element(By.CSS_SELECTOR,
                                                     'textarea[class*="bloko-textarea bloko-textarea_sized-rows"]')
             text = open('voditel.txt', 'r', encoding='utf-8')
-            respond_text.send_keys(text)
+            respond_text.send_keys(text.read())
             send_respond_text = self.driver.find_element(By.CSS_SELECTOR, 'button[type*="submit"]')
             sleep(5)
             self.driver.execute_script("arguments[0].click();", send_respond_text)
