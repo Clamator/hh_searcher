@@ -42,22 +42,33 @@ class Headhunter(object):
         search_button = self.driver.find_element(By.ID, 'submit-bottom')
         self.driver.execute_script("arguments[0].click();", search_button)
 
-    # a function to send respond
+    # a function to parse data and send respond
     def send_respond(self):
-        all_vacancies = self.driver.find_elements(By.CLASS_NAME, 'vacancy-serp-item')
+        # here i get all the link of vacancies
         links_list = []
-        for sep_vacancy in all_vacancies:
-            try:
-                link = sep_vacancy.find_element(By.CSS_SELECTOR, 'a[class*="bloko-link"]').get_attribute('href')
-                links_list.append(link)
-            except:
-                print('no vacancy link')
+        for _ in range(10):
+            all_vacancies = self.driver.find_elements(By.CLASS_NAME, 'vacancy-serp-item')
+            for sep_vacancy in all_vacancies:
+                try:
+                    link = sep_vacancy.find_element(By.CSS_SELECTOR, 'a[class*="bloko-link"]').get_attribute('href')
+                    # checking the uniqueness of link
+                    if link not in links_list:
+                        links_list.append(link)
+                    else:
+                        pass
+                except:
+                    print('no vacancy link')
+            next_button = self.driver.find_element(By.XPATH, '//span[contains(text(), "дальше")]')
+        # here i parse data
         for test_link in links_list:
             test_button = self.driver.get(test_link)
             # the button below hits and opens employer contacts so I can parse it
-            employer_contacts_button = self.driver.find_element(By.XPATH,
-                                                                '//span[contains(text(), "Контактная информация")]')
-            self.driver.execute_script("arguments[0].click();", employer_contacts_button)
+            try:
+                employer_contacts_button = self.driver.find_element(By.XPATH,
+                                                                    '//span[contains(text(), "Контактная информация")]')
+                self.driver.execute_script("arguments[0].click();", employer_contacts_button)
+            except:
+                continue
             try:
                 vacancy_name = self.driver.find_element(By.CSS_SELECTOR, 'h1[class*="bloko-header-1"]').text.strip()
             except:
@@ -79,7 +90,7 @@ class Headhunter(object):
             except:
                 contact_phone_number = 'no contacts'
             try:
-                address = self.driver.find_element(By.CSS_SELECTOR, 'span[data-qa*="vvacancy-view-raw-address"]').text.strip()
+                address = self.driver.find_element(By.CSS_SELECTOR, 'span[data-qa*="vacancy-view-raw-address"]').text.strip()
             except:
                 address = 'address is unknown'
 
