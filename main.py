@@ -82,7 +82,7 @@ class Headhunter(object):
             except:
                 vacancy_name = 'unknown vacancy name'
             try:
-                salary = self.driver.find_element(By.CSS_SELECTOR, 'div[class*="vacancy-salary"]').text.strip()
+                salary = self.driver.find_element(By.CSS_SELECTOR, 'span[class*="bloko-header-2_lite"]').text.strip()
             except:
                 salary = 'by agreement'
             try:
