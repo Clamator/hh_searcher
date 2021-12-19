@@ -13,7 +13,7 @@ class Headhunter(object):
     def __init__(self):
         option = options = Options()
         option.add_argument("--disable-blink-features=AutomationControlled")
-        #option.headless = True
+        option.headless = True
         self.driver = webdriver.Chrome(chrome_options=option)
         self.driver.get(hh_login_page)
 
@@ -51,7 +51,7 @@ class Headhunter(object):
     def send_respond(self):
         # here i get all the link of vacancies
         links_list = []
-        for _ in range(10):
+        for _ in range(2):
             all_vacancies = self.driver.find_elements(By.CLASS_NAME, 'vacancy-serp-item')
             for sep_vacancy in all_vacancies:
                 try:
@@ -109,11 +109,11 @@ class Headhunter(object):
 
             respond_time = datetime.now()
 
-            #try:
+            # try:
             #    respond_button = self.driver.find_element(By.CSS_SELECTOR, 'a[data-qa*="vacancy-response-link-top"]')
             #    self.driver.execute_script("arguments[0].click();", respond_button)
             #    sleep(5)
-#
+            #
             #    hit_letter_button = self.driver.find_element(By.CSS_SELECTOR,
             #                                                 'span[data-qa*="vacancy-response-letter-toggle"]')
             #    self.driver.execute_script("arguments[0].click();", hit_letter_button)
@@ -125,7 +125,7 @@ class Headhunter(object):
             #    send_respond_text = self.driver.find_element(By.XPATH, '//span[contains(text(), "Отправить")]')
             #    sleep(5)
             #    self.driver.execute_script("arguments[0].click();", send_respond_text)
-            #except:
+            # except:
             #    respond_button = 'button not found'
 
             data = {
@@ -138,8 +138,7 @@ class Headhunter(object):
                 "respond_time": respond_time,
             }
             print(data)
-            #self.write_csv(data)
-
+            self.write_csv(data)
 
 
 if __name__ == '__main__':
