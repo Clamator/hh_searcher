@@ -11,7 +11,7 @@ import pickle
 class Headhunter(object):
 
     def __init__(self):
-        option = options = Options()
+        option = Options()
         option.add_argument("--disable-blink-features=AutomationControlled")
         # option.headless = True
         self.driver = webdriver.Chrome(chrome_options=option)
@@ -24,7 +24,7 @@ class Headhunter(object):
         self.driver.refresh()
 
     def send_respond(self):
-        link = 'https://hh.ru/vacancy/44151891?from=vacancy_search_list&query=%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C'
+        link = 'https://hh.ru/vacancy/49485181?from=vacancy_search_list'
         self.driver.get(link)
         try:
             employer_contacts_button = self.driver.find_element(By.XPATH,
