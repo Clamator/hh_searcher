@@ -10,7 +10,7 @@ for chunk in df2:
     if result is None:
         result = voters_street
     else:
-        result = result.add(voters_street, fill_value=0)
+        result = pd.DataFrame(voters_street)
 
 #result.sort_values(ascending=False, inplace=True)
 result_gl = result.select_dtypes(include=['object']).copy()
