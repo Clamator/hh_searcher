@@ -1,12 +1,9 @@
 #!/usr/bin/python3
 
 import os
-import time
 import requests
 from bs4 import BeautifulSoup
-from pyrogram import Client, filters
-import tgcrypto
-import schedule
+from pyrogram import Client
 
 
 #app = Client('my_account1')
@@ -16,7 +13,7 @@ def get_html(url):
     return resp.text
 
 def get_data(html):
-    soup = BeautifulSoup(html, 'lxml')
+    soup = BeautifulSoup(html, "html.parser")
     main_news = soup.find_all('div', class_='feed__item l-island-round')
     first_new = main_news[0].find('a', class_='content-link').get('href')
 
@@ -38,7 +35,7 @@ def main():
     #send_message(get_data(get_html(url)))
     message = get_data(get_html(url))
     title = 'News'
-    os.system(f'notify-send: {title} - {message}')
+    os.system('notify-send "{}" "{}"'.format(title, message))
 
 
 if __name__ == '__main__':
