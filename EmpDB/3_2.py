@@ -3,15 +3,14 @@ import requests
 from bs4 import BeautifulSoup
 from pyrogram import Client, filters
 import tgcrypto
+import schedule
+
 
 #app = Client('my_account1')
 
 def get_html(url):
     resp = requests.get(url)
-    if resp.ok == True:
-        return resp.text
-    else:
-        get_html(url)
+    return resp.text
 
 def get_data(html):
     soup = BeautifulSoup(html, 'lxml')
@@ -34,7 +33,6 @@ def send_message(txt):
 def main():
     url = 'https://vc.ru/new'
     send_message(get_data(get_html(url)))
-
 
 
 if __name__ == '__main__':
