@@ -32,8 +32,10 @@ def send_message(txt):
 
 def main():
     url = 'https://vc.ru/new'
-    send_message(get_data(get_html(url)))
+    schedule.every(1).hour.do(send_message(get_data(get_html(url))))
 
+    while True:
+        schedule.run_pending()
 
 if __name__ == '__main__':
     main()
