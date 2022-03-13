@@ -1,10 +1,10 @@
 import pandas as pd
 import dask.dataframe as dd
-filename = 'printer2.csv'
+filename = 'pp-complete.csv'
 
-df = dd.read_csv(filename)
+df = dd.read_csv(filename, names=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p'])
 
-df2 = df[['h', 'k']].drop_duplicates().compute() # unique
+df2 = df.drop_duplicates('b').compute() # unique
 
 
 #df.to_parquet('printer2_parc')

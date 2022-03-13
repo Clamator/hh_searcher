@@ -1,8 +1,8 @@
 import pandas as pd
 
 frames = []
-df2 = pd.Cov = pd.read_csv(r"pp-complete.csv",names=['tui', 'price', 'dot', 'postcode', 'type', 'age', 'duration', 'paon', 'saon', 'street', 'loc', 'city',
-              'dist', 'main_dist', 'ppd',  'rec_stat'], parse_dates=['dot'], chunksize=1000000)
+df2 = pd.Cov = pd.read_table(r"pp-complete.csv", sep=',',names=['tui', 'price', 'dot', 'postcode', 'type', 'age', 'duration', 'paon', 'saon', 'street', 'loc', 'city',
+              'dist', 'main_dist', 'ppd',  'rec_stat'], engine='python', error_bad_lines=False,  parse_dates=['dot'], chunksize=1000000)
 for chunk in df2:
     address = chunk[['paon', 'saon', 'street', 'loc', 'city',
               'dist', 'main_dist']]
