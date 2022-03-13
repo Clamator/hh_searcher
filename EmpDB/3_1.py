@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+
+import os
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -32,7 +35,10 @@ def send_message(txt):
 
 def main():
     url = 'https://vc.ru/new'
-    send_message(get_data(get_html(url)))
+    #send_message(get_data(get_html(url)))
+    message = get_data(get_html(url))
+    title = 'News'
+    os.system(f'notify-send: {title} - {message}')
 
 
 if __name__ == '__main__':
