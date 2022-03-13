@@ -8,7 +8,10 @@ import tgcrypto
 
 def get_html(url):
     resp = requests.get(url)
-    return resp.text
+    if resp.ok == True:
+        return resp.text
+    else:
+        get_html(url)
 
 def get_data(html):
     soup = BeautifulSoup(html, 'lxml')
