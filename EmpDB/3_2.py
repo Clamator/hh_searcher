@@ -13,7 +13,7 @@ def get_html(url):
     return resp.text
 
 def get_data(html):
-    soup = BeautifulSoup(html, 'lxml')
+    soup = BeautifulSoup(html, 'html-parser')
     main_news = soup.find_all('div', class_='feed__item l-island-round')
     first_new = main_news[0].find('a', class_='content-link').get('href')
 
@@ -32,10 +32,10 @@ def send_message(txt):
 
 def main():
     url = 'https://vc.ru/new'
-    schedule.every(1).hour.do(send_message(get_data(get_html(url))))
+    send_message(get_data(get_html(url)))
 
-    while True:
-        schedule.run_pending()
+    #while True:
+    #    schedule.run_pending()
 
 if __name__ == '__main__':
     main()
